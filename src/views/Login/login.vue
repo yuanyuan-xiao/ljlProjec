@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     goSign() {
-      
+      console.log(31231)
     }
   },
 };
