@@ -56,7 +56,7 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .main-login {
   background: url(../../assets/images/001.jpg) no-repeat;
   background-size: cover;

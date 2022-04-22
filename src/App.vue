@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="scss">
 #app {
   height: 100%;
   width: 100%;
