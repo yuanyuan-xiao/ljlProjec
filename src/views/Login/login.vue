@@ -50,6 +50,7 @@ export default {
   },
   methods: {
     goSign() {
+      this.$router.push('/xtsy')
       console.log(31231)
     }
   },
