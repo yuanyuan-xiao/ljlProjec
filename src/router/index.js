@@ -6,6 +6,7 @@ import admin from '../views/admin'
 import superAdmin from '../views/superdAmin'
 import student from '../views/student'
 import Login from '../views/Login/login'
+import xtsy from '../views/xtsy/xtsy'
 Vue.use(VueRouter)
 
 export default new VueRouter ({
@@ -17,6 +18,10 @@ export default new VueRouter ({
     {
       path: '/login',
       component: Login
+    },
+    {
+      path: '/xtsy',
+      component: xtsy
     },
     {
       path: '/admin',
