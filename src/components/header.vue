@@ -17,10 +17,10 @@ export default {
   methods: {},
 };
 </script>
-<style lang='less' scoped>
+<style lang='scss' scoped>
 .header{
     height: 50px;
     // border: 1px solid #999;
-    background-color: rgb(187 197 206);
+    background-color: rgb(187,197,206);
 }
 </style>

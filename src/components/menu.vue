@@ -5,7 +5,7 @@
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
-      background-color="rgb(187 197 206)"
+      background-color="rgb(187,197,206)"
       text-color="#000"
       active-text-color="#ffd04b"
       router
@@ -57,13 +57,13 @@ export default {
   },
 };
 </script>
-<style lang='less' scoped>
+<style lang='scss' scoped>
 .leftMenu {
   width: 300px;
 //   border: 1px solid #666;
-  background-color: rgb(187 197 206);
+  background-color: rgb(187,197,206);
   overflow: auto;
-  .el-menu-vertical-demo {
-  }
+  // .el-menu-vertical-demo {
+  // }
 }
 </style>
