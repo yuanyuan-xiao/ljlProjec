@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div class="zyjm">
-      <Header v-if="$route.path !== '/login'"></Header>
+      <Menu v-if="$route.path !== '/login'"></Menu>
       <div class="zyjm2">
-        <Menu v-if="$route.path !== '/login'"></Menu>
+        <Header v-if="$route.path !== '/login'"></Header>
         <router-view class="routerView"></router-view>
       </div>
     </div>
@@ -31,13 +31,15 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   .zyjm2 {
     // height: calc(100% - 50px);
+    overflow: hidden;
     flex: 1;
     display: flex;
+    flex-direction: column;
     .routerView {
-      border: 1px solid;
+      // border: 1px solid;
       flex: 1;
       padding: 10px;
     }

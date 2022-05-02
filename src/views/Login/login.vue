@@ -7,17 +7,16 @@
         :model="user"
         label-width="60px"
         label-position="right"
+        :rules="rules"
       >
-        <el-form-item label="账号：">
-          <el-input v-model="user.account" size="mini" label="1"></el-input>
+        <el-form-item label="账号：" prop="account">
+          <el-input v-model="user.account"></el-input>
         </el-form-item>
-        <el-form-item label="密码：">
+        <el-form-item label="密码：" prop="password">
           <el-input
             show-password
             type="password"
             v-model="user.password"
-            size="mini"
-            label="1"
           ></el-input>
         </el-form-item>
         <el-form-item>
@@ -25,10 +24,8 @@
           <el-radio v-model="user.power" label="2">管理员</el-radio>
           <el-radio v-model="user.power" label="3">运动员</el-radio>
         </el-form-item>
-        <!-- <button class="loginBtn">登录</button><br />
-        <button class="loginBtn">注册</button> -->
         <el-form-item>
-          <el-button @click="goSign">登录</el-button>
+          <el-button @click="goSign('user')">登录</el-button>
           <el-button>注册</el-button>
         </el-form-item>
       </el-form>
@@ -37,29 +34,63 @@
 </template>
 
 <script>
+import api from '@/api/index.js'
 export default {
   name: "login",
   data() {
+    var checkAccount = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("账号不能为空"));
+      } else {
+        callback();
+      }
+    };
+    var checkPassword = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("密码不能为空"));
+      } else {
+        callback();
+      }
+    };
     return {
       user: {
-        account: "",
-        password: "",
-        power: "-1",
+        account: "5120180434",
+        password: "12345",
+        power: "3",
+      },
+      rules: {
+        account: [{ validator: checkAccount, trigger: "blur" }],
+        password: [{ validator: checkPassword, trigger: "blur" }],
       },
     };
   },
   methods: {
-    goSign() {
-      this.$router.push('/xtsy')
-      console.log(31231)
-    }
+    goSign(formName) {
+      this.$http.post(api.login,{dwbm:'980000',rybm:'456789'})
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$router.push("/xtsy");
+          this.$message({
+            type: "success",
+            message: "登录成功!",
+          });
+        }
+      });
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
+::v-deep .el-form-item__error {
+  top: unset;
+  // padding-top: 0;
+}
+::v-deep .el-form-item__label {
+  margin-bottom: 20px;
+}
 .main-login {
-  background: url(../../assets/images/001.jpg) no-repeat;
+  background: url("~@/assets/images/bc.jpg") no-repeat center;
   background-size: cover;
   display: flex;
   justify-content: center;
