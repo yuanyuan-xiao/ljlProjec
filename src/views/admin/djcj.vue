@@ -1,19 +1,35 @@
 <template>
   <!-- 登记成绩 -->
-  <div class='djcj'>登记成绩</div>
+  <div class="djcj">
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="按项目登记" name="first"></el-tab-pane>
+      <el-tab-pane label="按个人登记" name="second"></el-tab-pane>
+    </el-tabs>
+  <Xmdj v-if="xmdjShow"></Xmdj>
+  <Grdj v-else></Grdj>
+  </div>
 </template>
 <script>
+import Xmdj from './components/xmdj.vue'
+import Grdj from './components/grdj.vue'
 export default {
-  name: '登记成绩',
+  name: "djcj",
   props: {},
-  components: {},
+  components: {Xmdj,Grdj},
   data() {
-    return {}
+    return {
+      activeName: 'first'
+    };
   },
-  computed: {},
+  computed: {
+    xmdjShow() {
+      return this.activeName === 'first'
+    }
+  },
   mounted() {},
-  methods: {},
-}
+  methods: {
+  },
+};
 </script>
 <style lang='scss' scoped>
 </style>
