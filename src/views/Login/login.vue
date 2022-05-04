@@ -69,7 +69,7 @@ export default {
       this.$http.post(api.login,{dwbm:'980000',rybm:'456789'})
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$router.push("/xtsy");
+          this.$router.push("/xygl");
           this.$message({
             type: "success",
             message: "登录成功!",

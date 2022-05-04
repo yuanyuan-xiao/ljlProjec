@@ -1,1 +1,1 @@
-window.IPCONFIG = 'https://zxy.scbmark.com' // 接口请求地址==
+window.IPCONFIG = 'http://zxy.scbmark.com' // 接口请求地址==

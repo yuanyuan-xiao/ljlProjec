@@ -2,6 +2,7 @@ import axios from "axios";
 import Vue from "vue";
 import router from "../router";
 const baseURL = window.IPCONFIG;
+// axios.defaults.baseURL = baseURL
 const instance = axios.create({
   timeout: 7000, // 请求超时时间
   baseURL: baseURL,
@@ -9,7 +10,8 @@ const instance = axios.create({
     "Content-Type": "application/x-www-form-urlencoded",
   },
 });
-
+// axios.defaults.headers.post['Content-Type'] =
+//   'application/x-www-form-urlencoded;'
 // 请求
 instance.interceptors.request.use(
   async config => {
@@ -17,7 +19,6 @@ instance.interceptors.request.use(
   },
   
   error => {
-    console.log('5555', config)
     console.log(error)
     return Promise.reject(error)
   }
@@ -66,7 +67,7 @@ export default {
     return instance.get(encodeURI(url), data, config); // 请求参数
   },
   post: function (url, data, config) {
-    return axios.post(encodeURI(url), data, config); // 请求参数
+    return instance.post(encodeURI(url), data, config); // 请求参数
   },
   delete: function (url, data, config) {
     return instance.delete(encodeURI(url), data, config); // 请求参数
