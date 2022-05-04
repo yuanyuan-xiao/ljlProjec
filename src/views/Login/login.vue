@@ -24,9 +24,9 @@
           <el-radio v-model="user.power" label="2">管理员</el-radio>
           <el-radio v-model="user.power" label="3">运动员</el-radio>
         </el-form-item>
-        <el-form-item>
-          <el-button @click="goSign('user')">登录</el-button>
-          <el-button>注册</el-button>
+        <el-form-item >
+          <el-button style="float:right" @click="goSign('user')">登录</el-button>
+          <!-- <el-button>注册</el-button> -->
         </el-form-item>
       </el-form>
     </div>

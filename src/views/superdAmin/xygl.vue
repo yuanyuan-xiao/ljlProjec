@@ -90,41 +90,106 @@ export default {
           xxmc: "西南科技大学",
           xxqyh: "60000",
           xxdz: "绵阳市青羊村",
+          id: "1231313",
         },
         {
           xxmc: "四川师范大学",
           xxqyh: "854621",
           xxdz: "绵阳市青羊村",
+          id: "1231313",
         },
       ],
       tableData2: [
         {
           xymc: "计算机科学与技术学院",
           ssxx: "西南科技大学",
+          id: "56457567",
         },
         {
           xymc: "材料学院",
           ssxx: "西南科技大学",
+          id: "897885664",
         },
       ],
     };
   },
   computed: {},
-  mounted() {},
+  mounted() {
+    this.getYtjxx(); // 查询已添加学校
+    this.getYtjxy(); // 查询已添加学院
+  },
   methods: {
-    deleteData(data,val) {
+    // 查询已添加学校
+
+    getYtjxx() {
+      this.$http.post("/api", {}).then((res) => {
+        if (res.code === 0) {
+          this.tableData1 = res.data;
+        } else {
+          this.$message({
+            type: "error",
+            message: "获取已添加学校数据失败!",
+          });
+        }
+      });
+    },
+    //获取已添加学院
+    getYtjxy() {
+      this.$http.post("/api", {}).then((res) => {
+        if (res.code === 0) {
+          this.tableData2 = res.data;
+        } else {
+          this.$message({
+            type: "error",
+            message: "获取已添加学院数据失败!",
+          });
+        }
+      });
+    },
+    //删除表格数据
+    deleteData(data, val) {
       this.$confirm("是否删除该数据?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        this.$message({
-          type: "success",
-          message: "删除成功!",
-        });
+        if (val === "1") {
+          // 学校删除
+          this.$http.post("/api", { id: data.id }).then((res) => {
+            if (res.code === 0) {
+              this.getYtjxx();
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+            } else {
+              this.$message({
+                type: "error",
+                message: "删除失败!",
+              });
+            }
+          });
+        } else {
+          //学院删除
+          this.$http.post("/api", { id: data.id }).then((res) => {
+            if (res.code === 0) {
+              this.getYtjxy();
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+            } else {
+              this.$message({
+                type: "error",
+                message: "删除失败!",
+              });
+            }
+          });
+        }
       });
       console.log(data);
     },
+    //查看 （修改就在查看里面）
     viewData(data, val) {
       console.log(data);
       this.addTitle = val;
@@ -133,6 +198,7 @@ export default {
       } else {
         this.xyForm.xxmc = data.xymc;
         this.xyForm.xxqyh = data.ssxx;
+        this.xyForm.id = data.id; //如果id存在则是修改
       }
       this.dialogFormVisible = true;
     },
@@ -146,19 +212,50 @@ export default {
     },
     addTableData() {
       if (this.addTitle === "1") {
-        this.tableData1.push({
+        // this.tableData1.push({
+        //   xxmc: this.xyForm.xxmc,
+        //   xxqyh: this.xyForm.xxqyh,
+        // });
+        const obj = {
           xxmc: this.xyForm.xxmc,
+          xxdz: this.xyForm.xxdz,
           xxqyh: this.xyForm.xxqyh,
+          id: this.xyForm.id,
+        };
+        this.$http.post("/api", obj).then((res) => {
+          if (res.code === 0) {
+            this.getYtjxx();
+            this.dialogFormVisible = false;
+            this.xyForm = {};
+          } else {
+            this.$message({
+              type: "error",
+              message: "操作失败!",
+            });
+          }
         });
-        this.dialogFormVisible = false;
-        this.xyForm = {};
       } else {
-        this.tableData2.push({
+        // this.tableData2.push({
+        //   xymc: this.xyForm.xxmc,
+        //   ssxx: this.xyForm.xxqyh,
+        // });
+        const obj = {
           xymc: this.xyForm.xxmc,
           ssxx: this.xyForm.xxqyh,
+          id: this.xyForm.id,
+        };
+        this.$http.post("/api", obj).then((res) => {
+          if (res.code === 0) {
+            this.getYtjxy();
+            this.dialogFormVisible = false;
+            this.xyForm = {};
+          } else {
+            this.$message({
+              type: "error",
+              message: "操作失败!",
+            });
+          }
         });
-        this.dialogFormVisible = false;
-        this.xyForm = {};
       }
     },
   },

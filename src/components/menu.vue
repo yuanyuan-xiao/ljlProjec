@@ -126,7 +126,7 @@ export default {
           // img: require('@/assets/images/menu/jctj-icon.png'),
           children: [
             { name: "添加赛程", path: "/tjsc" },
-            { name: "赛程提醒", path: "/sctx" },
+            // { name: "赛程提醒", path: "/sctx" },
           ],
         },
         {

@@ -63,7 +63,7 @@
         <el-form-item :label="addTitle === '1' ? '项目类别名称' : '项目名称'">
           <el-input v-model="xyForm.xmlbmc" style="width: 300px"></el-input>
         </el-form-item>
-        <el-form-item :label="addTitle === '1' ? '项目类别编号':'项目编号'">
+        <el-form-item :label="addTitle === '1' ? '项目类别编号' : '项目编号'">
           <el-input v-model="xyForm.xmlbbh" style="width: 300px"></el-input>
         </el-form-item>
         <!-- <el-form-item :label="addTitle === '1' ? '学校区域号' : '所属学校'">
@@ -89,29 +89,63 @@ export default {
       dialogFormVisible: false,
       tableData1: [
         {
-          xmlbmc: "西南科技大学",
-          xmlbbh: "01",
+          xmlbmc: "教工男子青年组",
+          xmlbbh: "1",
         },
         {
-          xmlbmc: "四川师范大学",
-          xmlbbh: "02",
+          xmlbmc: "教工女子青年组",
+          xmlbbh: "2",
+        },
+        {
+          xmlbmc: "学生女子组",
+          xmlbbh: "3",
         },
       ],
       tableData2: [
         {
-          xmbh: "003",
-          xmmc: "西南科技大学",
+          xmbh: "3",
+          xmmc: "女子一百米",
         },
         {
-          xmbh: "005",
-          xmmc: "西南科技大学",
+          xmbh: "5",
+          xmmc: "男子四百米",
         },
       ],
     };
   },
   computed: {},
-  mounted() {},
+  mounted() {
+    this.getYtdxmlb(); // 获取已添加项目类别
+    this.getYtdxm(); // 获取已添加项目
+  },
   methods: {
+    // 获取已添加项目类别
+    getYtdxmlb() {
+      this.$http.post("/api", {}).then((res) => {
+        if (res.code === 0) {
+          this.tableData1 = res.data;
+        } else {
+          this.$message({
+            type: "error",
+            message: "获取已添加项目类别失败",
+          });
+        }
+      });
+    },
+    // 获取已添加项目
+    getYtdxm() {
+      this.$http.post("/api", {}).then((res) => {
+        if (res.code === 0) {
+          this.tableData2 = res.data;
+        } else {
+          this.$message({
+            type: "error",
+            message: "获取已添加项目失败",
+          });
+        }
+      });
+    },
+    // 删除表格数据
     deleteData(data, val) {
       this.$confirm("是否删除该数据?", "提示", {
         confirmButtonText: "确定",
@@ -125,6 +159,7 @@ export default {
       });
       console.log(data);
     },
+    // 查看
     viewData(data, val) {
       console.log(data);
       this.addTitle = val;
@@ -137,30 +172,66 @@ export default {
       this.dialogFormVisible = true;
     },
     tjxxClick(val) {
-      this.xyForm = {}
+      this.xyForm = {};
       this.addTitle = val;
       this.dialogFormVisible = true;
     },
     tjxyClick(val) {
-      this.xyForm = {}
+      this.xyForm = {};
       this.addTitle = val;
       this.dialogFormVisible = true;
     },
     addTableData() {
       if (this.addTitle === "1") {
-        this.tableData1.push({
+        // this.tableData1.push({
+        //   xmlbmc: this.xyForm.xmlbmc,
+        //   xmlbbh: this.xyForm.xmlbbh,
+        // });
+        const obj = {
           xmlbmc: this.xyForm.xmlbmc,
           xmlbbh: this.xyForm.xmlbbh,
+        };
+        this.$http.post("/api", obj).then((res) => {
+          if (res.code === 0) {
+            this.getYtdxmlb();
+            this.dialogFormVisible = false;
+            this.xyForm = {};
+            this.$message({
+              type: "success",
+              message: "操作成功",
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "操作失败",
+            });
+          }
         });
-        this.dialogFormVisible = false;
-        this.xyForm = {};
       } else {
-        this.tableData2.push({
-          xmbh: this.xyForm.xmlbbh,
+        // this.tableData2.push({
+        //   xmbh: this.xyForm.xmlbbh,
+        //   xmmc: this.xyForm.xmlbmc,
+        // });
+        const obj = {
           xmmc: this.xyForm.xmlbmc,
+          xmbh: this.xyForm.xmlbbh,
+        };
+        this.$http.post("/api", obj).then((res) => {
+          if (res.code === 0) {
+            this.getYtdxm();
+            this.dialogFormVisible = false;
+            this.xyForm = {};
+            this.$message({
+              type: "success",
+              message: "操作成功",
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "操作失败",
+            });
+          }
         });
-        this.dialogFormVisible = false;
-        this.xyForm = {};
       }
     },
   },
