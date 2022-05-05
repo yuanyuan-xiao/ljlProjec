@@ -22,9 +22,16 @@
               :label="header.label"
             >
             </el-table-column>
-            <el-table-column label="操作" width="80">
+            <el-table-column label="操作" width="150">
               <template slot-scope="scope">
                 <a class="action" @click="resetMm(scope.row, '1')">重置密码</a>
+                <a
+                  class="action"
+                  style="margin: 0 5px"
+                  @click="updateMm(scope.row, '2')"
+                  >修改</a
+                >
+                <a class="action" @click="deletaMm(scope.row, '2')">删除</a>
               </template>
             </el-table-column>
           </el-table>
@@ -49,16 +56,28 @@
               :label="header.label"
             >
             </el-table-column>
-            <el-table-column label="操作" width="80">
+            <el-table-column label="操作" width="150">
               <template slot-scope="scope">
                 <a class="action" @click="resetMm(scope.row, '2')">重置密码</a>
+                <a
+                  class="action"
+                  style="margin: 0 5px"
+                  @click="updateMm(scope.row, '2')"
+                  >修改</a
+                >
+                <a class="action" @click="deletaMm(scope.row, '2')">删除</a>
               </template>
             </el-table-column>
           </el-table>
         </div>
       </el-tab-pane>
     </el-tabs>
-    <el-dialog title="添加账号" :visible.sync="dialogFormVisible" width="900px">
+    <el-dialog
+      title="添加账号"
+      @close="closeDia"
+      :visible.sync="dialogFormVisible"
+      width="900px"
+    >
       <el-form
         :inline="true"
         :model="zhForm"
@@ -105,9 +124,13 @@
           <el-input v-model="zhForm.ssxy" style="width: 300px"></el-input>
         </el-form-item>
         <el-form-item label="身份">
-          <el-select style="width: 300px" v-model="zhForm.sflx" placeholder="请选择">
+          <el-select
+            style="width: 300px"
+            v-model="zhForm.sflx"
+            placeholder="请选择"
+          >
             <el-option
-              v-for="item,index in sflxData"
+              v-for="(item, index) in sflxData"
               :key="index"
               :label="item.label"
               :value="item.value"
@@ -146,7 +169,6 @@ export default {
       }
     };
     var validatePass2 = (rule, value, callback) => {
-      // const self = this
       if (!value) {
         callback(new Error("请再次输入密码"));
       } else if (value !== this.zhForm.mm) {
@@ -161,20 +183,20 @@ export default {
         mm: "",
         qrmm: "",
       },
-      sflxData:[
-        {label:'学生',value:'0'},
-        {label:'管理员',value:'1'},
-        {label:'超级管理员',value:'2'},
+      sflxData: [
+        { label: "学生", value: "0" },
+        { label: "管理员", value: "1" },
+        { label: "超级管理员", value: "2" },
       ],
       dialogFormVisible: false,
       glyxx: "",
       xsxx: "",
       activeName: "1",
-      tableData: [],
+      tableData: [{ gh: "1", zh: "杨冲", xb: "男" }],
       tableData1: [],
       tableHeader: [
         { prop: "gh", label: "工号" },
-        { prop: "xm", label: "姓名" },
+        { prop: "zh", label: "姓名" },
         { prop: "xb", label: "性别" },
         { prop: "lxfs", label: "联系方式" },
         { prop: "sfzh", label: "身份证号" },
@@ -183,7 +205,7 @@ export default {
       ],
       tableHeader1: [
         { prop: "gh", label: "工号" },
-        { prop: "xm", label: "姓名" },
+        { prop: "zh", label: "姓名" },
         { prop: "xb", label: "性别" },
         { prop: "lxfs", label: "联系方式" },
         { prop: "sfzh", label: "身份证号" },
@@ -205,6 +227,29 @@ export default {
     this.getTable1Data(); // 获取学生信息表格数据
   },
   methods: {
+    closeDia() {
+      this.zhForm = {};
+    },
+    //删除账号
+    deletaMm(data, type) {
+      if (type === "1") {
+        // 管理员删除
+      } else {
+        // 学生删除
+      }
+    },
+    //修改账号
+    updateMm(data, type) {
+      if (type === "1") {
+        // 管理员修改
+        this.zhForm = { ...data };
+        this.dialogFormVisible = true;
+      } else {
+        // 学生修改
+        this.zhForm = { ...data };
+        this.dialogFormVisible = true;
+      }
+    },
     //获取管理员表格数据
     getTableData() {
       this.$http.post("/api", { gjz: this.glyxx }).then((res) => {

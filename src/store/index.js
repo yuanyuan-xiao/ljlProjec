@@ -5,7 +5,7 @@ import {mockUser} from '@/api/index'
 Vue.use(Vuex)
 
 const state = {
-  user: []
+  user: {}
 };
 const mutations = {
   GETUSER(state, result) {

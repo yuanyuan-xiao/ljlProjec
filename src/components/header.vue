@@ -15,11 +15,13 @@ export default {
   components: {},
   data() {
     return {
-      dlbm: "超级管理员",
+      dlbm: "",
     };
   },
   computed: {},
-  mounted() {},
+  mounted() {
+    this.dlbm = this.$store.state.user.account;
+  },
   methods: {
     //退出登录
     logOut() {
@@ -28,7 +30,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        this.$router.push('/')
+        this.$router.push("/");
         this.$message({
           type: "success",
           message: "退出成功!",

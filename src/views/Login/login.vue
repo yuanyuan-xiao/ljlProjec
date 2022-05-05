@@ -24,8 +24,10 @@
           <el-radio v-model="user.power" label="2">管理员</el-radio>
           <el-radio v-model="user.power" label="3">运动员</el-radio>
         </el-form-item>
-        <el-form-item >
-          <el-button style="float:right" @click="goSign('user')">登录</el-button>
+        <el-form-item>
+          <el-button style="float: right" @click="goSign('user')"
+            >登录</el-button
+          >
           <!-- <el-button>注册</el-button> -->
         </el-form-item>
       </el-form>
@@ -34,7 +36,7 @@
 </template>
 
 <script>
-import api from '@/api/index.js'
+import api from "@/api/index.js";
 export default {
   name: "login",
   data() {
@@ -66,9 +68,20 @@ export default {
   },
   methods: {
     goSign(formName) {
-      this.$http.post(api.login,{dwbm:'980000',rybm:'456789'})
+      // this.$http.post(api.login,{dwbm:'980000',rybm:'456789'})
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.$http.post("/api", { ...this.user }).then((res) => {
+            if (res.code === 0) {
+              console.log("登录成功");
+            } else {
+              this.$message({
+                type: "error",
+                message: "登录失败!",
+              });
+            }
+          });
+          this.$store.commit('GETUSER',{...this.user})
           this.$router.push("/xygl");
           this.$message({
             type: "success",

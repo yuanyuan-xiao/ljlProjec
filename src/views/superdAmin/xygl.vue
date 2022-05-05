@@ -76,6 +76,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 export default {
   name: "",
   props: {},
@@ -113,8 +114,11 @@ export default {
       ],
     };
   },
-  computed: {},
+  computed: {
+    ...mapState(['GETUSER'])
+  },
   mounted() {
+    console.log('first',this.$store.state)
     this.getYtjxx(); // 查询已添加学校
     this.getYtjxy(); // 查询已添加学院
   },
