@@ -104,6 +104,17 @@
         <el-form-item label="所属学院">
           <el-input v-model="zhForm.ssxy" style="width: 300px"></el-input>
         </el-form-item>
+        <el-form-item label="身份">
+          <el-select style="width: 300px" v-model="zhForm.sflx" placeholder="请选择">
+            <el-option
+              v-for="item,index in sflxData"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -150,6 +161,11 @@ export default {
         mm: "",
         qrmm: "",
       },
+      sflxData:[
+        {label:'学生',value:'0'},
+        {label:'管理员',value:'1'},
+        {label:'超级管理员',value:'2'},
+      ],
       dialogFormVisible: false,
       glyxx: "",
       xsxx: "",
